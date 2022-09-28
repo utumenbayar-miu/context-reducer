@@ -1,11 +1,8 @@
 import React, { useContext, useState } from "react";
-import UserContext, { USER_ACTIONS } from "../context/UserContext";
+import { Link } from "react-router-dom";
 
 export default function SignIn() {
-  const { user: global_user, userActions } = useContext(UserContext);
   const [user, setuser] = useState({ email: "", password: "" });
-
-  console.log(global_user);
 
   function changed(e) {
     setuser({ ...user, [e.target.name]: e.target.value });
@@ -14,7 +11,6 @@ export default function SignIn() {
   function signIn(e) {
     e.preventDefault();
     console.log("Sign in " + JSON.stringify(user));
-    console.log(userActions({ type: USER_ACTIONS.SIGN_IN, payload: { user } }));
   }
 
   return (
@@ -37,6 +33,7 @@ export default function SignIn() {
         />
         <input type="submit" value="Sign in" />
       </form>
+      <Link to="/sign-up">Sign up</Link>
     </div>
   );
 }

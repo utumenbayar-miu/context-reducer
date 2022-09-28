@@ -1,11 +1,8 @@
 import React, { useContext, useState } from "react";
-import UserContext, { USER_ACTIONS } from "../context/UserContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
-  const { userActions } = useContext(UserContext);
   const [user, setuser] = useState({ name: "", email: "", password: "" });
-  const navigate = useNavigate();
 
   function changed(e) {
     setuser({ ...user, [e.target.name]: e.target.value });
@@ -14,8 +11,6 @@ export default function SignUp() {
   function signUp(e) {
     e.preventDefault();
     console.log("Sign up " + JSON.stringify(user));
-    userActions({ type: USER_ACTIONS.SIGN_UP, payload: { user } });
-    navigate("/sign-in");
   }
 
   return (
@@ -44,6 +39,7 @@ export default function SignUp() {
         />
         <input type="submit" value="Sign up" />
       </form>
+      <Link to="/sign-in">Sign in</Link>
     </div>
   );
 }
