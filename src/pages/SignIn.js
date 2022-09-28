@@ -1,8 +1,15 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import UserContext, { USER_ACTIONS } from "../context/UserContext";
 
 export default function SignIn() {
-  const [user, setuser] = useState({ email: "", password: "" });
+  const { globalUser, globalUserActions } = useContext(UserContext);
+  // const location = useLocation();
+
+  const [user, setuser] = useState({
+    email: globalUser.email || "",
+    password: "",
+  });
 
   function changed(e) {
     setuser({ ...user, [e.target.name]: e.target.value });
@@ -11,6 +18,7 @@ export default function SignIn() {
   function signIn(e) {
     e.preventDefault();
     console.log("Sign in " + JSON.stringify(user));
+    globalUserActions({ type: USER_ACTIONS.SIGN_IN, payload: user });
   }
 
   return (

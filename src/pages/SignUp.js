@@ -1,7 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import UserContext, { USER_ACTIONS } from "../context/UserContext";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const { globalUserActions } = useContext(UserContext);
   const [user, setuser] = useState({ name: "", email: "", password: "" });
 
   function changed(e) {
@@ -11,6 +14,9 @@ export default function SignUp() {
   function signUp(e) {
     e.preventDefault();
     console.log("Sign up " + JSON.stringify(user));
+    globalUserActions({ type: USER_ACTIONS.SIGN_UP, payload: user });
+    // why is reducer function triggered after function returned when it is not a promise.
+    navigate("/sign-in");
   }
 
   return (
@@ -39,7 +45,9 @@ export default function SignUp() {
         />
         <input type="submit" value="Sign up" />
       </form>
-      <Link to="/sign-in">Sign in</Link>
+      <Link to="/sign-in" state={{ email: user.email }}>
+        Sign in
+      </Link>
     </div>
   );
 }
